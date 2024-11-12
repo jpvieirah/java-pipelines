@@ -1,0 +1,19 @@
+name: CI Java
+
+on:
+  push:
+    branches: [ "develop", "main" ]
+    paths:
+      - "java/**"  # Dispara o workflow apenas se houver alterações na pasta "java"
+  pull_request:
+    branches: [ "develop", "main" ]
+    paths:
+      - "java/**"  # Dispara o workflow apenas se houver alterações na pasta "java"
+  workflow_dispatch:
+ 
+jobs:
+  ci-java:
+    uses: ./.github/workflows/build-reusable.yml
+    with:
+      language: "java"
+      environment: "ci"
