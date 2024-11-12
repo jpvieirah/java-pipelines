@@ -12,7 +12,6 @@ on:
         required: true
         type: string
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,14 +22,15 @@ jobs:
         with:
           fetch-depth: 0
           
-      - name: Set up environment and install dependencies
+      - name: Set up Java (version 11)
+        uses: actions/setup-java@v3  # Correção: 'uses' deve ser fora do 'run'
+        with:
+          java-version: '11'  # Especificando a versão do Java
+
+      - name: Install dependencies
         run: |
           case "${{ inputs.language }}" in
             "java")
-              echo "Setting up Java..."
-              # Set up Java (version 11)
-              actions/setup-java@v3
-              java-version: '11'
               mvn clean install
               ;;
             *)
