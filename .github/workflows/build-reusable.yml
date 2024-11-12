@@ -27,14 +27,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up environment and install dependencies
+      # Set up Java
+      - name: Set up Java (version 11)
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'   # Configura a versão do Java 11
+          distribution: 'adoptopenjdk' # Você pode usar o OpenJDK ou outro, como Zulu, dependendo da sua preferência.
+
+      - name: Install dependencies and build
         run: |
           case "${{ inputs.language }}" in
             "java")
-              echo "Setting up Java..."
-              # Set up Java (version 11)
-              actions/setup-java@v3
-              java-version: '11'
+              echo "Building Java project..."
               mvn clean install
               ;;
 
