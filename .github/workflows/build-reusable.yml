@@ -13,7 +13,7 @@ on:
         type: string
     secrets:
       SONAR_TOKEN:
-        required: true
+        required: false
       SNYK_TOKEN:
         required: false
 
