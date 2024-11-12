@@ -11,6 +11,11 @@ on:
         description: 'Deployment environment'
         required: true
         type: string
+    secrets:
+      SONAR_TOKEN:
+        required: true
+      SNYK_TOKEN:
+        required: false
 
 jobs:
   build:
