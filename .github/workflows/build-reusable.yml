@@ -37,12 +37,12 @@ jobs:
       # Mudar para o diretório correto e executar o Maven
       - name: Install dependencies and build
         run: |
-          cd java/java-pipelines  # Mude para o diretório onde está o pom.xml
+          cd java/java-pipelines
           mvn clean install
 
       - name: Run unit tests
         run: |
-          cd java/java-pipelines  # Mude para o diretório correto
+          cd java/java-pipelines
           mvn test
 
       # SonarQube scan step
@@ -56,8 +56,8 @@ jobs:
             -Dsonar.projectKey=jpvieirah_java-pipelines
             -Dsonar.organization=jpvieirah
             -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.sources=java/java-pipelines/src  # Caminho corrigido para o diretório 'src'
-            -Dsonar.java.binaries=java/java-pipelines/target/classes  # Caminho corrigido para os binários (classes)
+            -Dsonar.sources=java/java-pipelines/src
+            -Dsonar.java.binaries=java/java-pipelines/target/classes
 
     # Comentado o scan de segurança com Snyk
     # - name: Run security scan (optional)
