@@ -31,7 +31,6 @@ jobs:
         run: |
           case "${{ inputs.language }}" in
             "java")
-              echo "Setting up Java environment..."
               mvn clean install
               ;;
             *)
