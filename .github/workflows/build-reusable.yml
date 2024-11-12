@@ -1,0 +1,88 @@
+name: Build Reusable Workflow
+
+on:
+  workflow_call:
+    inputs:
+      language:
+        description: 'Programming language for the build'
+        required: true
+        type: string
+      environment:
+        description: 'Deployment environment'
+        required: true
+        type: string
+    secrets:
+      SONAR_TOKEN:
+        required: true
+      SNYK_TOKEN:
+        required: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          
+      - name: Set up environment and install dependencies
+        run: |
+          case "${{ inputs.language }}" in
+            "java")
+              echo "Setting up Java..."
+              # Set up Java (version 11)
+              actions/setup-java@v3
+              java-version: '11'
+              mvn clean install
+              ;;
+            *)
+              echo "Language not supported!"
+              exit 1
+              ;;
+          esac
+          
+      - name: Run unit tests
+        run: |
+          case "${{ inputs.language }}" in
+            "java")
+              echo "Running unit tests for Java..."
+              mvn test
+              ;;
+            *)
+              echo "Language not supported for tests!"
+              exit 1
+              ;;
+          esac  
+
+      # Comentado o SonarQube scan
+      # - name: Run SonarQube scan
+      #   uses: SonarSource/sonarcloud-github-action@v2
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #   with:
+      #     args: >
+      #       -Dsonar.exclusions=**/*.java
+
+    # Comentado o scan de segurança com Snyk
+    # - name: Run security scan (optional)
+    #   if: secrets.SNYK_TOKEN != ''
+    #   uses: snyk/snyk@v2
+    #   env:
+    #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+    # Comentado o upload de artefatos
+    # - name: Upload artifacts
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: "${{ inputs.language }}-build"
+    #     path: |
+    #       ./java/target/*.jar         # Java
+    #       ./nodejs/node_modules/*     # Node.js
+    #       ./aspnet/bin/Release/*      # .NET
+    #       ./php/dist/*                # PHP
+    #       ./go/dist/*                 # Go
+    #       ./python/*.whl              # Python (ou qualquer outro artefato)
+    #       ./ruby/*.gem                # Ruby (ou qualquer outro artefato)
