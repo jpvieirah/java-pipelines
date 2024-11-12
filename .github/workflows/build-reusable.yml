@@ -31,42 +31,25 @@ jobs:
       - name: Set up Java (version 11, Zulu)
         uses: actions/setup-java@v3
         with:
-          java-version: '11'       # Configura a versão do Java 11
-          distribution: 'zulu'     # Usando Zulu JDK
+          java-version: '11'   # Configura a versão do Java 11
+          distribution: 'zulu' # Usando Zulu JDK
 
+      # Mudar para o diretório correto e executar o Maven
       - name: Install dependencies and build
         run: |
-          case "${{ inputs.language }}" in
-            "java")
-              echo "Building Java project..."
-              mvn clean install
-              ;;
-
-            *)
-              echo "Language not supported!"
-              exit 1
-              ;;
-          esac
+          cd java/java-pipelines  # Mude para o diretório onde está o pom.xml
+          mvn clean install
 
       - name: Run unit tests
         run: |
-          case "${{ inputs.language }}" in
-            "java")
-              echo "Running unit tests for Java..."
-              mvn test
-              ;;
-
-            *)
-              echo "Language not supported for tests!"
-              exit 1
-              ;;
-          esac
+          cd java/java-pipelines  # Mude para o diretório correto
+          mvn test
 
       # SonarQube scan step
       - name: Run SonarQube scan
         uses: SonarSource/sonarcloud-github-action@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
