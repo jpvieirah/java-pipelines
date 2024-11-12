@@ -1,36 +1,47 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  
   <groupId>com.example</groupId>
   <artifactId>java-pipelines</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>java-pipelines</name>
-  <url>http://maven.apache.org</url>
+  <url>http://seu.projeto.url/aqui</url> <!-- Alterar para o URL do seu projeto, se necessário -->
+  
   <dependencies>
+    <!-- Atualização do JUnit para a versão 5 -->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>5.8.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.8.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
+  
   <properties>
     <sonar.organization>jpvieirah</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
   </properties>
+  
   <build>
-  <plugins>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-compiler-plugin</artifactId>
-      <version>3.8.1</version> <!-- Ou a versão mais recente -->
-      <configuration>
-        <source>11</source> <!-- Configura o código fonte para Java 11 -->
-        <target>11</target> <!-- Configura o código de destino para Java 11 -->
-      </configuration>
-    </plugin>
-  </plugins>
-</build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version> <!-- Ou a versão mais recente -->
+        <configuration>
+          <source>11</source>
+          <target>11</target>
+          <release>11</release> <!-- Garantir a compatibilidade com Java 11 -->
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
-
