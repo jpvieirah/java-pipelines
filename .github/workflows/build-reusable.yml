@@ -29,15 +29,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          case "${{ inputs.language }}" in
-            "java")
+              cd ./java/java-pipelines/
               mvn clean install
-              ;;
-            *)
-              echo "Language not supported!"
-              exit 1
-              ;;
-          esac
+         
           
       - name: Run unit tests
         run: |
