@@ -1,32 +1,45 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.example</groupId>
-  <artifactId>java-pipelines</artifactId>
-  <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
-  <name>java-pipelines</name>
-  <url>http://maven.apache.org</url>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-  <build>
-  <plugins>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-compiler-plugin</artifactId>
-      <version>3.8.1</version> <!-- Ou a versão mais recente -->
-      <configuration>
-        <source>11</source> <!-- Configura o código fonte para Java 11 -->
-        <target>11</target> <!-- Configura o código de destino para Java 11 -->
-      </configuration>
-    </plugin>
-  </plugins>
-</build>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+ 
+    <groupId>com.example</groupId>
+    <artifactId>java-pipelines</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>java-pipelines</name>
+    <url>http://maven.apache.org</url>
+ 
+    <!-- Configurações para a SonarCloud (Se necessário) -->
+    <properties>
+        <sonar.organization>jpvieirah</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+ 
+        <!-- Versões do Java para compilação -->
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+ 
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+ 
+    <build>
+        <plugins>
+            <!-- Plugin para compilação usando o Java 11 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version> <!-- Certifique-se de usar uma versão recente -->
+                <configuration>
+                    <source>11</source>  <!-- Configura o código fonte para Java 11 -->
+                    <target>11</target>  <!-- Configura o código de destino para Java 11 -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
-
