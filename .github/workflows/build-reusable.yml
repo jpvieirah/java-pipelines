@@ -56,8 +56,8 @@ jobs:
             -Dsonar.projectKey=jpvieirah_java-pipelines
             -Dsonar.organization=jpvieirah
             -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.sources=src
-            -Dsonar.java.binaries=target/classes
+            -Dsonar.sources=java/java-pipelines/src  # Caminho corrigido para o diretório 'src'
+            -Dsonar.java.binaries=java/java-pipelines/target/classes  # Caminho corrigido para os binários (classes)
 
     # Comentado o scan de segurança com Snyk
     # - name: Run security scan (optional)
