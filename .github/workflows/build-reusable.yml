@@ -26,7 +26,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          
+
       - name: Set up environment and install dependencies
         run: |
           case "${{ inputs.language }}" in
@@ -37,12 +37,13 @@ jobs:
               java-version: '11'
               mvn clean install
               ;;
+
             *)
               echo "Language not supported!"
               exit 1
               ;;
           esac
-          
+
       - name: Run unit tests
         run: |
           case "${{ inputs.language }}" in
@@ -50,21 +51,26 @@ jobs:
               echo "Running unit tests for Java..."
               mvn test
               ;;
+
             *)
               echo "Language not supported for tests!"
               exit 1
               ;;
-          esac  
+          esac
 
-      # Comentado o SonarQube scan
-      # - name: Run SonarQube scan
-      #   uses: SonarSource/sonarcloud-github-action@v2
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #   with:
-      #     args: >
-      #       -Dsonar.exclusions=**/*.java
+      # SonarQube scan step
+      - name: Run SonarQube scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=jpvieirah_java-pipelines
+            -Dsonar.organization=jpvieirah
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.sources=src
+            -Dsonar.java.binaries=target/classes
 
     # Comentado o scan de segurança com Snyk
     # - name: Run security scan (optional)
