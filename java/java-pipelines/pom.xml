@@ -15,4 +15,18 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <version>3.8.1</version> <!-- Ou a versão mais recente -->
+      <configuration>
+        <source>11</source> <!-- Configura o código fonte para Java 11 -->
+        <target>11</target> <!-- Configura o código de destino para Java 11 -->
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
 </project>
+
