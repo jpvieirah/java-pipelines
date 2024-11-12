@@ -27,12 +27,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Set up Java (Updated to use Adoptium)
-      - name: Set up Java (version 11)
+      # Set up Java (Zulu JDK)
+      - name: Set up Java (version 11, Zulu)
         uses: actions/setup-java@v3
         with:
-          java-version: '11'   # Configura a versão do Java 11
-          distribution: 'adoptium'  # Usando a distribuição Adoptium (anteriormente AdoptOpenJDK)
+          java-version: '11'       # Configura a versão do Java 11
+          distribution: 'zulu'     # Usando Zulu JDK
 
       - name: Install dependencies and build
         run: |
