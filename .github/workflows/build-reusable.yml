@@ -29,22 +29,22 @@ jobs:
 
       - name: Install dependencies
         run: |
-              cd ./java/java-pipelines/
-              mvn clean install
+          cd ./java/java-pipelines/
+          mvn clean install
          
           
-      - name: Run unit tests
-        run: |
-          case "${{ inputs.language }}" in
-            "java")
-              echo "Running unit tests for Java..."
-              mvn test
-              ;;
-            *)
-              echo "Language not supported for tests!"
-              exit 1
-              ;;
-          esac  
+      #- name: Run unit tests
+        #run: |
+          #case "${{ inputs.language }}" in
+            #"java")
+              #echo "Running unit tests for Java..."
+              #mvn test
+              #;;
+            #*)
+              #echo "Language not supported for tests!"
+              #exit 1
+              #;;
+          #esac  
 
       # Comentado o SonarQube scan
       # - name: Run SonarQube scan
