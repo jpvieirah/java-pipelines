@@ -2,19 +2,20 @@ name: Upload Artifact
 
 on:
   workflow_run:
-    workflows: ["CI Java"]  # Nome do workflow principal
+    workflows: ["CI Java"]
     types:
-      - completed  # Define que o workflow será executado quando o workflow "CI Java" terminar
+      - completed
 
 jobs:
   upload-artifact:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}  # Condição de sucesso
     runs-on: ubuntu-latest
 
     steps:
       - name: Download Build Files
         uses: actions/download-artifact@v3
         with:
-          name: java-build-files  # Nome do artefato salvo no workflow principal
+          name: java-build-files
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
