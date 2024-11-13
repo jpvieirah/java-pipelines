@@ -22,4 +22,7 @@ jobs:
 
   call-upload-artifact:
       needs: ci-java  # Garante que o job 'call-upload-artifact' só será executado depois do 'ci-java' finalizar
-      uses: ./.github/workflows/upload-artifact-java.yml  # Chama o próximo workflow (reutilizável)
+      uses: ./.github/workflows/upload-artifact-java.yml  # Chama o próximo workflow
+      with:
+        language: "java"  # Passando o valor do input 'language' para o workflow chamado
+        environment: "ci"  # Passando o valor do input 'environment' para o workflow chamado
