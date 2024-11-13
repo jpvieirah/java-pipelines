@@ -16,9 +16,8 @@ jobs:
         with:
           name: java-build-files  # Nome do artefato salvo no workflow principal
 
-      - name: Upload artifact
+      - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-            name: java-artifact
-            path: target/my-project.jar
-
+          name: java-artifact
+          path: java/java-pipelines/target/*.jar
