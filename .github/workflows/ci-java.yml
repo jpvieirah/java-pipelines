@@ -18,4 +18,4 @@ jobs:
       language: "java"
       environment: "ci"
     secrets:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}s
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
