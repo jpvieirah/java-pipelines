@@ -27,14 +27,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Set up Java (Zulu JDK)
       - name: Set up Java (version 11, Zulu)
         uses: actions/setup-java@v3
         with:
-          java-version: '11'   # Configura a versão do Java 11
-          distribution: 'zulu' # Usando Zulu JDK
+          java-version: '11'
+          distribution: 'zulu'
 
-      # Mudar para o diretório correto e executar o Maven
       - name: Install dependencies and build
         run: |
           cd java/java-pipelines
@@ -45,7 +43,6 @@ jobs:
           cd java/java-pipelines
           mvn test
 
-      # SonarQube scan step
       - name: Run SonarQube scan
         uses: SonarSource/sonarcloud-github-action@v2
         env:
