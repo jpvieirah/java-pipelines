@@ -1,16 +1,10 @@
 name: Upload Artifact
 
 on:
-  workflow_call:
-    inputs:
-      language:
-        description: 'Upload Artifact'
-        required: true
-        type: string
-      environment:
-        description: 'Deployment environment'
-        required: true
-        type: string
+  workflow_run:
+    workflows: ["CI Java"]  # Nome do workflow principal
+    types:
+      - completed  # Define que o workflow será executado quando o workflow "CI Java" terminar
 
 jobs:
   upload-artifact:
