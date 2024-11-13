@@ -56,10 +56,12 @@ jobs:
             -Dsonar.sources=java/java-pipelines/src
             -Dsonar.java.binaries=java/java-pipelines/target/classes
                   
-      - name: Wait for SonarCloud Quality Gate
-        uses: SonarSource/sonarcloud-github-action@v2
-        with:
-          sonar-token: ${{ secrets.SONAR_TOKEN }}
+            - name: Wait for SonarCloud Quality Gate
+            uses: SonarSource/sonarcloud-github-action@v2
+            with:
+              qualityGate: true
+            env:
+              SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
