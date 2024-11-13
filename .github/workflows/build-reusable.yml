@@ -44,6 +44,8 @@ jobs:
         run: |
           cd java/java-pipelines
           mvn test
+#<<<<<<< release/arctifact-02
+#=======
 
       # SonarQube scan step
       - name: Run SonarQube scan
@@ -58,6 +60,21 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.sources=java/java-pipelines/src
             -Dsonar.java.binaries=java/java-pipelines/target/classes
+# >>>>>>> develop
+
+      # SonarQube scan step
+      #- name: Run SonarQube scan
+      #  uses: SonarSource/sonarcloud-github-action@v2
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #  with:
+      #    args: >
+      #      -Dsonar.projectKey=jpvieirah_java-pipelines
+      #      -Dsonar.organization=jpvieirah
+      #      -Dsonar.host.url=https://sonarcloud.io
+      #      -Dsonar.sources=java/java-pipelines/src
+      #      -Dsonar.java.binaries=java/java-pipelines/target/classes
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
