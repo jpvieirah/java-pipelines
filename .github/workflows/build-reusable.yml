@@ -44,8 +44,6 @@ jobs:
         run: |
           cd java/java-pipelines
           mvn test
-#<<<<<<< release/arctifact-02
-#=======
 
       # SonarQube scan step
       - name: Run SonarQube scan
@@ -60,7 +58,6 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.sources=java/java-pipelines/src
             -Dsonar.java.binaries=java/java-pipelines/target/classes
-# >>>>>>> develop
 
       # SonarQube scan step
       #- name: Run SonarQube scan
