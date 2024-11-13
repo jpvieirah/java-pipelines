@@ -27,14 +27,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Set up Java (Zulu JDK)
       - name: Set up Java (version 11, Zulu)
         uses: actions/setup-java@v3
         with:
-          java-version: '11'   # Configura a versão do Java 11
-          distribution: 'zulu' # Usando Zulu JDK
+          java-version: '11'
+          distribution: 'zulu'
 
-      # Mudar para o diretório correto e executar o Maven
       - name: Install dependencies and build
         run: |
           cd java/java-pipelines
@@ -45,7 +43,6 @@ jobs:
           cd java/java-pipelines
           mvn test
 
-      # SonarQube scan step
       - name: Run SonarQube scan
         uses: SonarSource/sonarcloud-github-action@v2
         env:
@@ -59,19 +56,20 @@ jobs:
             -Dsonar.sources=java/java-pipelines/src
             -Dsonar.java.binaries=java/java-pipelines/target/classes
 
-      # SonarQube scan step
-      #- name: Run SonarQube scan
-      #  uses: SonarSource/sonarcloud-github-action@v2
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #  with:
-      #    args: >
-      #      -Dsonar.projectKey=jpvieirah_java-pipelines
-      #      -Dsonar.organization=jpvieirah
-      #      -Dsonar.host.url=https://sonarcloud.io
-      #      -Dsonar.sources=java/java-pipelines/src
-      #      -Dsonar.java.binaries=java/java-pipelines/target/classes
+      - name: Wait for SonarCloud Quality Gate
+        run: |
+            echo "Waiting for SonarCloud Quality Gate to pass..."
+            # Substitua <projectKey> com o seu projeto
+            PROJECT_KEY=jpvieirah_java-pipelines
+            STATUS=$(curl -s -X GET -u "${{ secrets.SONAR_TOKEN }}:" "https://sonarcloud.io/api/qualitygates/project_status?projectKey=${PROJECT_KEY}" | jq -r .projectStatus.status)
+            echo "Quality Gate Status: $STATUS"
+
+            if [ "$STATUS" != "OK" ]; then
+              echo "Quality Gate failed. Exiting with error."
+              exit 1
+            else
+              echo "Quality Gate passed."
+            fi
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
