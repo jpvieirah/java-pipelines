@@ -1,0 +1,22 @@
+name: Upload Artifact
+
+on:
+  workflow_run:
+    workflows: ["CI Java"]  # Nome do workflow que dispara este
+    types:
+      - completed  # Executa quando o workflow principal estiver completo
+
+jobs:
+  upload-artifact:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Build Files
+        uses: actions/download-artifact@v3
+        with:
+          name: java-build-files  # Nome do artefato salvo no workflow principal
+
+      - name: Upload Artifact to Storage
+        run: |
+          # Aqui você pode transferir o artefato para outro armazenamento,
+          # fazer o upload para um servidor ou qualquer outra operação
