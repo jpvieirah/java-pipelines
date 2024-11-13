@@ -44,6 +44,8 @@ jobs:
         run: |
           cd java/java-pipelines
           mvn test
+#<<<<<<< release/arctifact-02
+#=======
 
       # SonarQube scan step
       - name: Run SonarQube scan
@@ -58,24 +60,24 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.sources=java/java-pipelines/src
             -Dsonar.java.binaries=java/java-pipelines/target/classes
+# >>>>>>> develop
 
-    # Comentado o scan de segurança com Snyk
-    # - name: Run security scan (optional)
-    #   if: secrets.SNYK_TOKEN != ''
-    #   uses: snyk/snyk@v2
-    #   env:
-    #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      # SonarQube scan step
+      #- name: Run SonarQube scan
+      #  uses: SonarSource/sonarcloud-github-action@v2
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #  with:
+      #    args: >
+      #      -Dsonar.projectKey=jpvieirah_java-pipelines
+      #      -Dsonar.organization=jpvieirah
+      #      -Dsonar.host.url=https://sonarcloud.io
+      #      -Dsonar.sources=java/java-pipelines/src
+      #      -Dsonar.java.binaries=java/java-pipelines/target/classes
 
-    # Comentado o upload de artefatos
-    # - name: Upload artifacts
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: "${{ inputs.language }}-build"
-    #     path: |
-    #       ./java/target/*.jar         # Java
-    #       ./nodejs/node_modules/*     # Node.js
-    #       ./aspnet/bin/Release/*      # .NET
-    #       ./php/dist/*                # PHP
-    #       ./go/dist/*                 # Go
-    #       ./python/*.whl              # Python (ou qualquer outro artefato)
-    #       ./ruby/*.gem                # Ruby (ou qualquer outro artefato)
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: java-build
+          path: java/java-pipelines/target/*.jar
