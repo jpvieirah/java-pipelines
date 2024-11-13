@@ -16,7 +16,9 @@ jobs:
         with:
           name: java-build-files  # Nome do artefato salvo no workflow principal
 
-      - name: Upload Artifact to Storage
-        run: |
-          # Aqui você pode transferir o artefato para outro armazenamento,
-          # fazer o upload para um servidor ou qualquer outra operação
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+            name: java-artifact
+            path: target/my-project.jar
+
