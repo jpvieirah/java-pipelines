@@ -10,10 +10,12 @@ on:
     paths:
       - "java/**"  # Dispara o workflow apenas se houver alterações na pasta "java"
   workflow_dispatch:
- 
+
 jobs:
   ci-java:
     uses: ./.github/workflows/build-reusable.yml
     with:
       language: "java"
       environment: "ci"
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
