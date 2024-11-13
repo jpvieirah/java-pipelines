@@ -27,21 +27,28 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up environment and install dependencies
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+            java-version: '11'  # Configura o Java 11
+
+      - name: Run Java build script
         run: |
-          case "${{ inputs.language }}" in
-            "java")
-              echo "Setting up Java..."
-              # Set up Java (version 11)
-              actions/setup-java@v3
-              java-version: '11'
-              mvn clean install
-              ;;
-            *)
-              echo "Language not supported!"
-              exit 1
-              ;;
-          esac
+             case "java" in
+             "java")
+             echo "Setting up Java..."
+             # Já configurado o Java acima
+             mvn clean install
+             ;;
+             *)
+             echo "Language not supported!"
+             exit 1
+             ;;
+             esac
 
       - name: Run unit tests
         run: |
