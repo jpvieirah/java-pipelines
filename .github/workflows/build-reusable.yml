@@ -11,6 +11,11 @@ on:
         description: 'Deployment environment'
         required: true
         type: string
+    secrets:
+      SONAR_TOKEN:
+        required: true
+      SNYK_TOKEN:
+        required: false
 
 jobs:
   build:
@@ -21,59 +26,45 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          
-      - name: Set up Java (version 11)
-        uses: actions/setup-java@v3  # Correção: 'uses' deve ser fora do 'run'
+
+      - name: Set up Java (version 11, Zulu)
+        uses: actions/setup-java@v3
         with:
           java-version: '11'
-          distribution: 'temurin'
+          distribution: 'zulu'
 
-      - name: Install dependencies
+      - name: Install dependencies and build
         run: |
-          cd ./java/java-pipelines/
+          cd java/java-pipelines
           mvn clean install
-         
-          
-      #- name: Run unit tests
-        #run: |
-          #case "${{ inputs.language }}" in
-            #"java")
-              #echo "Running unit tests for Java..."
-              #mvn test
-              #;;
-            #*)
-              #echo "Language not supported for tests!"
-              #exit 1
-              #;;
-          #esac  
 
-      # Comentado o SonarQube scan
-      # - name: Run SonarQube scan
-      #   uses: SonarSource/sonarcloud-github-action@v2
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #   with:
-      #     args: >
-      #       -Dsonar.exclusions=**/*.java
+      - name: Run unit tests
+        run: |
+          cd java/java-pipelines
+          mvn test
 
-    # Comentado o scan de segurança com Snyk
-    # - name: Run security scan (optional)
-    #   if: secrets.SNYK_TOKEN != ''
-    #   uses: snyk/snyk@v2
-    #   env:
-    #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Run SonarQube scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=jpvieirah_java-pipelines
+            -Dsonar.organization=jpvieirah
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.sources=java/java-pipelines/src
+            -Dsonar.java.binaries=java/java-pipelines/target/classes
 
-    # Comentado o upload de artefatos
-    # - name: Upload artifacts
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: "${{ inputs.language }}-build"
-    #     path: |
-    #       ./java/target/*.jar         # Java
-    #       ./nodejs/node_modules/*     # Node.js
-    #       ./aspnet/bin/Release/*      # .NET
-    #       ./php/dist/*                # PHP
-    #       ./go/dist/*                 # Go
-    #       ./python/*.whl              # Python (ou qualquer outro artefato)
-    #       ./ruby/*.gem                # Ruby (ou qualquer outro artefato)
+      - name: Wait for SonarCloud Quality Gate
+        uses: SonarSource/sonarcloud-github-action@v2
+        with:
+          waitForQualityGate: true  # Faz a espera pela aprovação do Quality Gate
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} 
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: java-build
+          path: java/java-pipelines/target/*.jar
