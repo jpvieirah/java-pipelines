@@ -57,11 +57,19 @@ jobs:
             -Dsonar.java.binaries=java/java-pipelines/target/classes
 
       - name: Wait for SonarCloud Quality Gate
-        uses: SonarSource/sonarcloud-github-action@v2
-        with:
-          waitForQualityGate: true  # Faz a espera pela aprovação do Quality Gate
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+            echo "Waiting for SonarCloud Quality Gate to pass..."
+            # Substitua <projectKey> com o seu projeto
+            PROJECT_KEY=jpvieirah_java-pipelines
+            STATUS=$(curl -s -X GET -u "${{ secrets.SONAR_TOKEN }}:" "https://sonarcloud.io/api/qualitygates/project_status?projectKey=${PROJECT_KEY}" | jq -r .projectStatus.status)
+            echo "Quality Gate Status: $STATUS"
+
+            if [ "$STATUS" != "OK" ]; then
+              echo "Quality Gate failed. Exiting with error."
+              exit 1
+            else
+              echo "Quality Gate passed."
+            fi
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
