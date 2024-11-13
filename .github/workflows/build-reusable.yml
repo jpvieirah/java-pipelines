@@ -27,51 +27,37 @@ jobs:
         with:
           fetch-depth: 0
 
-
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Java
+      # Set up Java (Zulu JDK)
+      - name: Set up Java (version 11, Zulu)
         uses: actions/setup-java@v3
         with:
-            java-version: '11'  # Configura o Java 11
+          java-version: '11'   # Configura a versão do Java 11
+          distribution: 'zulu' # Usando Zulu JDK
 
-      - name: Run Java build script
+      # Mudar para o diretório correto e executar o Maven
+      - name: Install dependencies and build
         run: |
-             case "java" in
-             "java")
-             echo "Setting up Java..."
-             # Já configurado o Java acima
-             mvn clean install
-             ;;
-             *)
-             echo "Language not supported!"
-             exit 1
-             ;;
-             esac
+          cd java/java-pipelines
+          mvn clean install
 
       - name: Run unit tests
         run: |
-          case "${{ inputs.language }}" in
-            "java")
-              echo "Running unit tests for Java..."
-              mvn test
-              ;;
-            *)
-              echo "Language not supported for tests!"
-              exit 1
-              ;;
-          esac
+          cd java/java-pipelines
+          mvn test
 
-      # Comentado o SonarQube scan
-      # - name: Run SonarQube scan
-      #   uses: SonarSource/sonarcloud-github-action@v2
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #   with:
-      #     args: >
-      #       -Dsonar.exclusions=**/*.java
+      # SonarQube scan step
+      - name: Run SonarQube scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=jpvieirah_java-pipelines
+            -Dsonar.organization=jpvieirah
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.sources=java/java-pipelines/src
+            -Dsonar.java.binaries=java/java-pipelines/target/classes
 
     # Comentado o scan de segurança com Snyk
     # - name: Run security scan (optional)
