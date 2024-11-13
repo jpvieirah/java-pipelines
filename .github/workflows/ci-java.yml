@@ -19,3 +19,7 @@ jobs:
       environment: "ci"
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  call-upload-artifact:
+      needs: ci-java  # Garante que o job 'call-upload-artifact' só será executado depois do 'ci-java' finalizar
+      uses: ./.github/workflows/upload-artifact-java.yml  # Chama o próximo workflow (reutilizável)
