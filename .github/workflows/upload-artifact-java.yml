@@ -1,10 +1,21 @@
 name: Upload Artifact
 
 on:
-  workflow_run:
-    workflows: ["CI Java"]  # Nome do workflow que dispara este
-    types:
-      - completed  # Executa quando o workflow principal estiver completo
+  workflow_call:
+    inputs:
+      language:
+        description: 'Upload Artifact'
+        required: true
+        type: string
+      environment:
+        description: 'Deployment environment'
+        required: true
+        type: string
+    secrets:
+      SONAR_TOKEN:
+        required: true
+      SNYK_TOKEN:
+        required: false
 
 jobs:
   upload-artifact:
